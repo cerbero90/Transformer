@@ -1,17 +1,16 @@
 {
-    "name": "league/:package_name",
+    "name": "cerbero/:package_name",
     "description": ":package_description",
     "keywords": [
-        "league",
-        ":package_name"
+        ":package_keyword"
     ],
-    "homepage": "https://github.com/thephpleague/:package_name",
+    "homepage": "https://github.com/cerbero90/:package_name",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Andrea Marco Sartori",
+            "email": "andrea.marco.sartori@gmail.com",
+            "homepage": "https://github.com/cerbero90",
             "role": "Developer"
         }
     ],
@@ -19,22 +18,11 @@
         "php" : ">=5.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit" : "4.*",
-        "scrutinizer/ocular": "~1.1"
+        "phpspec/phpspec": "~2.0"
     },
     "autoload": {
         "psr-4": {
-            "League\\Skeleton\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "League\\Skeleton\\Test\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
+            "Cerbero\\Skeleton\\": "src"
         }
     }
 }
