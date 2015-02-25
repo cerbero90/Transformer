@@ -1,10 +1,8 @@
 {
-    "name": "cerbero/:package_name",
-    "description": ":package_description",
-    "keywords": [
-        ":package_keyword"
-    ],
-    "homepage": "https://github.com/cerbero90/:package_name",
+    "name": "cerbero/Transformer",
+    "description": "Transform objects and arrays by manipulating, casting and mapping their properties.",
+    "keywords": ["transformer", "cast", "map", "object", "array"],
+    "homepage": "https://github.com/cerbero90/Transformer",
     "license": "MIT",
     "authors": [
         {
@@ -22,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Cerbero\\Skeleton\\": "src"
+            "Cerbero\\Transformer\\": "src"
         }
     }
 }
