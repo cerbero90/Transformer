@@ -1,7 +1,5 @@
 <?php namespace Cerbero\Transformer;
 
-use Illuminate\Support\Collection;
-
 /**
  * Abstract implementation of a transformer.
  *
@@ -76,7 +74,6 @@ abstract class AbstractTransformer {
 	 * Determine whether the original value is a single item.
 	 *
 	 * @author	Andrea Marco Sartori
-	 * @param	mixed	$value
 	 * @return	boolean
 	 */
 	private function originalIsOne()
