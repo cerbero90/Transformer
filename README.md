@@ -3,7 +3,7 @@
 
 [![Author](http://img.shields.io/badge/author-@cerbero90-blue.svg?style=flat-square)](https://twitter.com/cerbero90)
 [![Build Status](https://img.shields.io/travis/cerbero90/Transformer/master.svg?style=flat-square)](https://travis-ci.org/cerbero90/Transformer)
-[![Packagist Version](https://img.shields.io/packagist/v/cerbero/transformer.svg?style=flat-square&label=release)](https://packagist.org/packages/league/flysystem)
+[![Packagist Version](https://img.shields.io/packagist/v/cerbero/transformer.svg?style=flat-square&label=release)](https://packagist.org/packages/cerbero/transformer)
 [![Packagist](https://img.shields.io/packagist/l/cerbero/transformer.svg?style=flat-square)](LICENSE.md)
 [![Code Climate](https://img.shields.io/codeclimate/github/cerbero90/Transformer.svg?style=flat-square)](https://codeclimate.com/github/cerbero90/Transformer)
 [![Quality Score](https://img.shields.io/scrutinizer/g/cerbero90/Transformer.svg?style=flat-square)](https://scrutinizer-ci.com/g/cerbero90/Transformer)
