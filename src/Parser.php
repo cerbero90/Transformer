@@ -31,7 +31,10 @@ class Parser {
 	 */
 	public function __construct($string, $key = null)
 	{
-		if($key) $string = $this->addKeyToString($key, $string);
+		if( ! is_null($key))
+		{
+			$string = $this->addKeyToString($key, $string);
+		}
 
 		$this->string = $string;
 	}
