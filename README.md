@@ -170,7 +170,7 @@ class SourceFooTransformer extends MyTransformer {
 			'is_admin'  => 'adminPermission',
 			'status'    => 'status',
 			'date'      => 'date',
-			'cents'     => 'cents
+			'cents'     => 'cents,
 			'json'      => 'json',
 		];
 	}
