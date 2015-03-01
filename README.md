@@ -106,8 +106,9 @@ Now you can pass the object, array or multi-dimensional array you want to transf
 $transformer = new MyTransformer;
 $transformer->transform($arrayOrObject);
 ```
+When you transform a multi-dimensional array, you get an instance of [Collection](http://laravel.com/api/5.0/Illuminate/Support/Collection.html). It can be used as a normal array but has many powerful methods to work with.
 
-This table shows the available default transformations:
+The following table shows the available default transformations:
 
 | Transformation | Description                                                   | Syntax                               |
 |:--------------:|---------------------------------------------------------------|--------------------------------------|
