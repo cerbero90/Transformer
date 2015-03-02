@@ -1,5 +1,7 @@
 <?php namespace Cerbero\Transformer;
 
+use Illuminate\Support\Collection;
+
 /**
  * Abstract implementation of a transformer.
  *
@@ -62,12 +64,9 @@ abstract class AbstractTransformer {
 	 */
 	protected function forceCollection()
 	{
-		if($this->originalIsOne())
-		{
-			return collect([$this->original]);
-		}
+		$items = $this->originalIsOne() ? [$this->original] : $this->original;
 
-		return collect($this->original);
+		return new Collection($items);
 	}
 
 	/**
