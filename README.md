@@ -108,26 +108,7 @@ $transformer->transform($arrayOrObject);
 ```
 When you transform a multi-dimensional array, you get an instance of [Collection](http://laravel.com/api/5.0/Illuminate/Support/Collection.html). It can be used as a normal array but has many powerful methods to work with.
 
-The following table shows the available default transformations:
-
-| Transformation | Description                                                   | Syntax                               |
-|:--------------:|---------------------------------------------------------------|--------------------------------------|
-| arr            | Decode a JSON or wrap the value into an array                 | `arr`                                |
-| bool           | Convert the value to a boolean                                | `bool`                               |
-| date           | Convert the value to a DateTime object or format a date       | `date` `date:Y-m-d`                  |
-| enum           | Enumerate the value with defined associations                 | `enum:denied=0,approved=1,pending=2` |
-| float          | Convert the value to a float and optionally truncate decimals | `float` `float:2`                    |
-| int            | Convert the value to an integer                               | `int`                                |
-| object         | Decode a JSON or convert the value to an object               | `object`                             |
-| string         | Encode a JSON or convert the value to a string                | `string`                             |
-You can also define your own transformations by adding methods to your transformator, for example:
-```php
-protected function prefix($prefix)
-{
-	return $prefix . $this->value;
-}
-```
-`prefix` is a custom transformation that receives a prefix as parameter and prepend it to the value to transform. It can now be applied with the syntax `prefix:foo` so that `$prefix` equals `'foo'`. The previous example needs only a parameter but you can pass how many arguments you want with the syntax `prefix:foo,bar,baz`.
+### Normalize many sources
 
 Sometimes you may need to normalize data from different sources. In that case only the keys of the sources change, while the transformed keys and the applied transformations remain the same. To avoid repeating your code for every source, you can extend the abstract transformer as you did before but without specifying the source keys:
 
@@ -170,11 +151,41 @@ class SourceFooTransformer extends MyTransformer {
 			'is_admin'  => 'adminPermission',
 			'status'    => 'status',
 			'date'      => 'date',
-			'cents'     => 'cents,
+			'cents'     => 'cents',
 			'json'      => 'json',
 		];
 	}
 
 }
 ```
-This time the transformed keys are associated only to the original keys belonging to a given source, because the transformations to apply are already known.
+This time the transformed keys are associated only to the original keys belonging to a given source, because the transformations to apply has been already set.
+
+## Transformations
+
+The following table shows the available default transformations:
+
+| Transformation | Description                                                   | Syntax                               |
+|:--------------:|---------------------------------------------------------------|--------------------------------------|
+| arr            | Decode a JSON or wrap the value into an array                 | `arr`                                |
+| bool           | Convert the value to a boolean                                | `bool`                               |
+| date           | Convert the value to a DateTime object or format a date       | `date` `date:Y-m-d`                  |
+| enum           | Enumerate the value with defined associations                 | `enum:denied=0,approved=1,pending=2` |
+| float          | Convert the value to a float and optionally truncate decimals | `float` `float:2`                    |
+| int            | Convert the value to an integer                               | `int`                                |
+| object         | Decode a JSON or convert the value to an object               | `object`                             |
+| string         | Encode a JSON or convert the value to a string                | `string`                             |
+
+### Custom transformations
+
+You can also define your own transformations by adding methods to your transformator, for example:
+```php
+protected function prefix($prefix)
+{
+	return $prefix . $this->value;
+}
+```
+`prefix` is a custom transformation that receives a prefix as parameter and prepend it to the value to transform. It can now be applied with the syntax `prefix:foo` so that `$prefix` equals `'foo'`. The previous example needs only a parameter but you can pass how many arguments you want with the syntax `prefix:foo,bar,baz`.
+
+Please note that `$this->value` holds the value got by the last transformation applied so when you chain more transformations, the value gets updated by every transformation it passes through.
+
+There is another handy property you can use within a custom transformation: `$this->item` holds the array or object that contains `$this->value`. Useful for example when the custom transformation requires another value from the "container" to transform the current value.
