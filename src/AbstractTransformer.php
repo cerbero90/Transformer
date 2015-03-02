@@ -17,13 +17,25 @@ abstract class AbstractTransformer {
 
 	/**
 	 * @author	Andrea Marco Sartori
-	 * @var		array	$item	Processing item.
+	 * @var		boolean	$originalIsOne	Whether the original value is not a multi-dimensional array.
+	 */
+	protected $originalIsOne;
+
+	/**
+	 * @author	Andrea Marco Sartori
+	 * @var		array	$processing	The item being processed.
+	 */
+	protected $processing;
+
+	/**
+	 * @author	Andrea Marco Sartori
+	 * @var		mixed	$item	Current item.
 	 */
 	protected $item;
 
 	/**
 	 * @author	Andrea Marco Sartori
-	 * @var		mixed	$value	Processing value.
+	 * @var		mixed	$value	Current value.
 	 */
 	protected $value;
 
@@ -44,7 +56,7 @@ abstract class AbstractTransformer {
 	 */
 	public function transform($value)
 	{
-		$this->original = $value;
+		$this->setOriginal($value);
 
 		$collection = $this->forceCollection();
 
@@ -53,20 +65,21 @@ abstract class AbstractTransformer {
 			return $this->transformItem($item);
 		});
 
-		return $this->originalIsOne() ? $collection->first() : $collection;
+		return $this->originalIsOne ? $collection->first() : $collection;
 	}
 
 	/**
-	 * Retrieve a collection of items even if the original value is one.
+	 * Set the original value.
 	 *
 	 * @author	Andrea Marco Sartori
-	 * @return	\Illuminate\Support\Collection
+	 * @param	mixed	$original
+	 * @return	void
 	 */
-	protected function forceCollection()
+	public function setOriginal($original)
 	{
-		$items = $this->originalIsOne() ? [$this->original] : $this->original;
+		$this->original = $original;
 
-		return new Collection($items);
+		$this->originalIsOne = $this->originalIsOne();
 	}
 
 	/**
@@ -75,13 +88,13 @@ abstract class AbstractTransformer {
 	 * @author	Andrea Marco Sartori
 	 * @return	boolean
 	 */
-	private function originalIsOne()
+	protected function originalIsOne()
 	{
 		if( ! $this->originalCanBeLooped()) return true;
 
-		foreach ((array) $this->original as $item)
+		foreach ($this->original as $item)
 		{
-			if( ! is_array($item)) return true;
+			if( ! is_array($item) && ! is_object($item)) return true;
 		}
 
 		return false;
@@ -101,6 +114,19 @@ abstract class AbstractTransformer {
 	}
 
 	/**
+	 * Retrieve a collection of items even if the original value is one.
+	 *
+	 * @author	Andrea Marco Sartori
+	 * @return	\Illuminate\Support\Collection
+	 */
+	protected function forceCollection()
+	{
+		$items = $this->originalIsOne ? [$this->original] : $this->original;
+
+		return Collection::make($items);
+	}
+
+	/**
 	 * Transform a given item.
 	 *
 	 * @author	Andrea Marco Sartori
@@ -109,14 +135,16 @@ abstract class AbstractTransformer {
 	 */
 	protected function transformItem($item)
 	{
-		$this->item = [];
+		$this->item = $item;
+
+		$this->processing = [];
 
 		foreach ($this->dotStructure() as $key => $rules)
 		{
 			$this->map($item, $key, $rules);
 		}
 
-		return $this->item;
+		return $this->processing;
 	}
 
 	/**
@@ -152,7 +180,7 @@ abstract class AbstractTransformer {
 			$this->value = call_user_func_array([$this, $transformation], $args);
 		}
 
-		array_set($this->item, $key, $this->value);
+		array_set($this->processing, $key, $this->value);
 	}
 
 	/**

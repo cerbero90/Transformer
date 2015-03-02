@@ -1,7 +1,7 @@
 {
     "name": "cerbero/transformer",
     "description": "Transform objects and arrays by manipulating, casting and mapping their properties.",
-    "keywords": ["transformer", "cast", "map", "object", "array"],
+    "keywords": ["transformer", "transformation", "normalization", "casting", "cast", "mapping", "map", "object", "array"],
     "homepage": "https://github.com/cerbero90/Transformer",
     "license": "MIT",
     "authors": [
