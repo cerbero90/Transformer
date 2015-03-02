@@ -5,7 +5,7 @@
 [![Build Status](https://img.shields.io/travis/cerbero90/Transformer/master.svg?style=flat-square)](https://travis-ci.org/cerbero90/Transformer)
 [![Packagist Version](https://img.shields.io/packagist/v/cerbero/transformer.svg?style=flat-square&label=release)](https://packagist.org/packages/cerbero/transformer)
 [![Packagist](https://img.shields.io/packagist/l/cerbero/transformer.svg?style=flat-square)](LICENSE.md)
-[![Code Climate](https://img.shields.io/codeclimate/github/cerbero90/Transformer.svg?style=flat-square)](https://codeclimate.com/github/cerbero90/Transformer)
+[![HHVM Support](https://img.shields.io/hhvm/cerbero/transformer.svg?style=flat-square)](https://travis-ci.org/cerbero90/Transformer)
 [![Quality Score](https://img.shields.io/scrutinizer/g/cerbero90/Transformer.svg?style=flat-square)](https://scrutinizer-ci.com/g/cerbero90/Transformer)
 [![Gratipay](https://img.shields.io/gratipay/cerbero.svg?style=flat-square)](https://gratipay.com/cerbero/)
 
@@ -177,4 +177,4 @@ class SourceFooTransformer extends MyTransformer {
 
 }
 ```
-This time the transformed keys are associated only to the original keys belonging to a given source, because the transformation to apply are already known.
+This time the transformed keys are associated only to the original keys belonging to a given source, because the transformations to apply are already known.
