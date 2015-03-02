@@ -83,7 +83,7 @@ abstract class AbstractTransformer {
 	}
 
 	/**
-	 * Determine whether the original value is a single item.
+	 * Determine whether the original value is not a multi-dimensional array.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @return	boolean
@@ -94,7 +94,7 @@ abstract class AbstractTransformer {
 
 		foreach ($this->original as $item)
 		{
-			if( ! is_array($item) && ! is_object($item)) return true;
+			if(is_scalar($item)) return true;
 		}
 
 		return false;
