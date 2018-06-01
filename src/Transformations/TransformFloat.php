@@ -12,7 +12,7 @@ class TransformFloat extends AbstractTransformation {
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	TransformFloat
+	 * @return	float
 	 */
 	public function apply(array $params)
 	{

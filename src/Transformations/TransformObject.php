@@ -12,7 +12,7 @@ class TransformObject extends AbstractTransformation {
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	TransformObject
+	 * @return	object
 	 */
 	public function apply(array $params)
 	{

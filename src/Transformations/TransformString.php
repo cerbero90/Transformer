@@ -12,7 +12,7 @@ class TransformString extends AbstractTransformation {
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	TransformString
+	 * @return	string
 	 */
 	public function apply(array $params)
 	{
