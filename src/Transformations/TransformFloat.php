@@ -5,14 +5,14 @@
  *
  * @author	Andrea Marco Sartori
  */
-class Float extends AbstractTransformation {
+class TransformFloat extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	float
+	 * @return	TransformFloat
 	 */
 	public function apply(array $params)
 	{

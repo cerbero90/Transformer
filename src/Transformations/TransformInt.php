@@ -5,7 +5,7 @@
  *
  * @author	Andrea Marco Sartori
  */
-class Int extends AbstractTransformation {
+class TransformInt extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.

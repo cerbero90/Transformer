@@ -17,7 +17,7 @@ class Parser {
 
 	/**
 	 * @author	Andrea Marco Sartori
-	 * @var		string	$string	String to parse.
+	 * @var		string	$string	TransformString to parse.
 	 */
 	protected $string;
 	

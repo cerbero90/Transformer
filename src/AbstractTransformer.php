@@ -239,7 +239,7 @@ abstract class AbstractTransformer {
 	{
 		$Name = ucfirst($name);
 
-		return "Cerbero\Transformer\Transformations\\{$Name}";
+		return "Cerbero\Transformer\Transformations\\Transform{$Name}";
 	}
 
 }

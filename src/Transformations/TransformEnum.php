@@ -5,7 +5,7 @@
  *
  * @author	Andrea Marco Sartori
  */
-class Enum extends AbstractTransformation {
+class TransformEnum extends AbstractTransformation {
 
 	const DELIMITER = '=';
 

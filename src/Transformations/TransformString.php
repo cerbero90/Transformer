@@ -1,24 +1,24 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Transform a value to an object.
+ * Transform a value to a string.
  *
  * @author	Andrea Marco Sartori
  */
-class Object extends AbstractTransformation {
+class TransformString extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	object
+	 * @return	TransformString
 	 */
 	public function apply(array $params)
 	{
-		$value = json_decode($this->value);
+		$value = json_encode($this->value);
 
-		return is_object($value) ? $value : (object) $this->value;
+		return is_string($value) ? $value : (string) $this->value;
 	}
 
 }

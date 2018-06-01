@@ -1,24 +1,22 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Transform a value to a string.
+ * Transform a value to a boolean.
  *
  * @author	Andrea Marco Sartori
  */
-class String extends AbstractTransformation {
+class TransformBool extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	string
+	 * @return	boolean
 	 */
 	public function apply(array $params)
 	{
-		$value = json_encode($this->value);
-
-		return is_string($value) ? $value : (string) $this->value;
+		return (bool) $this->value;
 	}
 
 }
