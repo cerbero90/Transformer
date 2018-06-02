@@ -5,18 +5,17 @@
  *
  * @author	Andrea Marco Sartori
  */
-class TransformBool extends AbstractTransformation {
-
-	/**
-	 * Apply the transformation.
-	 *
-	 * @author	Andrea Marco Sartori
-	 * @param	array	$params
-	 * @return	boolean
-	 */
-	public function apply(array $params)
-	{
-		return (bool) $this->value;
-	}
-
+class TransformBool extends AbstractTransformation
+{
+    /**
+     * Apply the transformation.
+     *
+     * @author	Andrea Marco Sartori
+     * @param	array	$params
+     * @return	boolean
+     */
+    public function apply(array $params)
+    {
+        return (bool) $this->value;
+    }
 }

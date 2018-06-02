@@ -3,11 +3,9 @@
 namespace spec\Cerbero\Transformer\Stubs;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class TransformerSpec extends ObjectBehavior
 {
-
     /**
      * @author    Andrea Marco Sartori
      * @var       array    $value    Value to transform.
@@ -65,7 +63,7 @@ class TransformerSpec extends ObjectBehavior
      */
     public function it_retrieves_a_collection_if_the_value_is_a_multidimensional_array()
     {
-    	$this->transform([$this->value])->shouldHaveType('Illuminate\Support\Collection');
+        $this->transform([$this->value])->shouldHaveType('Illuminate\Support\Collection');
     }
 
     /**

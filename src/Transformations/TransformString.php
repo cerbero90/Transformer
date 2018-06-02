@@ -5,20 +5,19 @@
  *
  * @author	Andrea Marco Sartori
  */
-class TransformString extends AbstractTransformation {
+class TransformString extends AbstractTransformation
+{
+    /**
+     * Apply the transformation.
+     *
+     * @author	Andrea Marco Sartori
+     * @param	array	$params
+     * @return	string
+     */
+    public function apply(array $params)
+    {
+        $value = json_encode($this->value);
 
-	/**
-	 * Apply the transformation.
-	 *
-	 * @author	Andrea Marco Sartori
-	 * @param	array	$params
-	 * @return	string
-	 */
-	public function apply(array $params)
-	{
-		$value = json_encode($this->value);
-
-		return is_string($value) ? $value : (string) $this->value;
-	}
-
+        return is_string($value) ? $value : (string) $this->value;
+    }
 }

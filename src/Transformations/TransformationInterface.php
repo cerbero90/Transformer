@@ -5,15 +5,14 @@
  *
  * @author	Andrea Marco Sartori
  */
-interface TransformationInterface {
-
-	/**
-	 * Apply the transformation.
-	 *
-	 * @author	Andrea Marco Sartori
-	 * @param	array	$params
-	 * @return	mixed
-	 */
-	public function apply(array $params);
-
+interface TransformationInterface
+{
+    /**
+     * Apply the transformation.
+     *
+     * @author	Andrea Marco Sartori
+     * @param	array	$params
+     * @return	mixed
+     */
+    public function apply(array $params);
 }

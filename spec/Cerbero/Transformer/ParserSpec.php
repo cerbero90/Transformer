@@ -3,14 +3,13 @@
 namespace spec\Cerbero\Transformer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
-class ParserSpec extends ObjectBehavior {
-
-	public function let()
-	{
-		$this->beConstructedWith('foo');
-	}
+class ParserSpec extends ObjectBehavior
+{
+    public function let()
+    {
+        $this->beConstructedWith('foo');
+    }
 
     public function it_is_initializable()
     {
@@ -25,7 +24,7 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_the_original_string_if_there_are_no_transformations()
     {
-    	$this->getKey()->shouldReturn('foo');
+        $this->getKey()->shouldReturn('foo');
     }
 
     /**
@@ -62,9 +61,9 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_the_parsed_key_if_there_are_transformations()
     {
-    	$this->beConstructedWith('foo.bar bool');
+        $this->beConstructedWith('foo.bar bool');
 
-    	$this->getKey()->shouldReturn('foo.bar');
+        $this->getKey()->shouldReturn('foo.bar');
     }
 
     /**
@@ -75,7 +74,7 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_an_empty_array_if_there_are_no_transformations()
     {
-    	$this->getTransformations()->shouldReturn([]);
+        $this->getTransformations()->shouldReturn([]);
     }
 
     /**
@@ -86,9 +85,9 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_the_transformations_associated_to_an_empty_array_if_no_arguments()
     {
-    	$this->beConstructedWith('foo bool');
+        $this->beConstructedWith('foo bool');
 
-    	$this->getTransformations()->shouldReturn(['bool' => []]);
+        $this->getTransformations()->shouldReturn(['bool' => []]);
     }
 
     /**
@@ -99,9 +98,9 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_transformations_associated_to_their_arguments()
     {
-    	$this->beConstructedWith('foo date:Y-m-d');
+        $this->beConstructedWith('foo date:Y-m-d');
 
-    	$this->getTransformations()->shouldReturn(['date' => ['Y-m-d']]);
+        $this->getTransformations()->shouldReturn(['date' => ['Y-m-d']]);
     }
 
     /**
@@ -112,9 +111,9 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_all_arguments_of_a_transformation()
     {
-    	$this->beConstructedWith('foo custom:bar,baz');
+        $this->beConstructedWith('foo custom:bar,baz');
 
-    	$this->getTransformations()->shouldReturn(['custom' => ['bar', 'baz']]);
+        $this->getTransformations()->shouldReturn(['custom' => ['bar', 'baz']]);
     }
 
     /**
@@ -125,14 +124,14 @@ class ParserSpec extends ObjectBehavior {
      */
     public function it_returns_all_transformations()
     {
-    	$this->beConstructedWith('foo bool|date:Y|custom:bar,baz');
+        $this->beConstructedWith('foo bool|date:Y|custom:bar,baz');
 
-    	$expected = [
-			'bool'   => [],
-			'date'   => ['Y'],
-			'custom' => ['bar', 'baz'],
-    	];
+        $expected = [
+            'bool' => [],
+            'date' => ['Y'],
+            'custom' => ['bar', 'baz'],
+        ];
 
-    	$this->getTransformations()->shouldReturn($expected);
+        $this->getTransformations()->shouldReturn($expected);
     }
 }

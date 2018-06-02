@@ -5,25 +5,25 @@
  *
  * @author	Andrea Marco Sartori
  */
-class TransformEnum extends AbstractTransformation {
+class TransformEnum extends AbstractTransformation
+{
+    const DELIMITER = '=';
 
-	const DELIMITER = '=';
+    /**
+     * Apply the transformation.
+     *
+     * @author	Andrea Marco Sartori
+     * @param	array	$params
+     * @return	boolean
+     */
+    public function apply(array $params)
+    {
+        foreach ($params as $param) {
+            list($searched, $transformed) = explode(static::DELIMITER, $param);
 
-	/**
-	 * Apply the transformation.
-	 *
-	 * @author	Andrea Marco Sartori
-	 * @param	array	$params
-	 * @return	boolean
-	 */
-	public function apply(array $params)
-	{
-		foreach ($params as $param)
-		{
-			list($searched, $transformed) = explode(static::DELIMITER, $param);
-
-			if($this->value == $searched) return (int) $transformed;
-		}
-	}
-
+            if ($this->value == $searched) {
+                return (int) $transformed;
+            }
+        }
+    }
 }
