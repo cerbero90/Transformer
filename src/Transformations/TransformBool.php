@@ -1,18 +1,21 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Interface for transformations.
+ * Transform a value to a boolean.
  *
  * @author	Andrea Marco Sartori
  */
-interface TransformationInterface
+class TransformBool extends AbstractTransformation
 {
     /**
      * Apply the transformation.
      *
      * @author	Andrea Marco Sartori
      * @param	array	$params
-     * @return	mixed
+     * @return	boolean
      */
-    public function apply(array $params);
+    public function apply(array $params)
+    {
+        return (bool) $this->value;
+    }
 }

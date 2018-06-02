@@ -1,18 +1,21 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Interface for transformations.
+ * Transform a value to an integer.
  *
  * @author	Andrea Marco Sartori
  */
-interface TransformationInterface
+class TransformInt extends AbstractTransformation
 {
     /**
      * Apply the transformation.
      *
      * @author	Andrea Marco Sartori
      * @param	array	$params
-     * @return	mixed
+     * @return	integer
      */
-    public function apply(array $params);
+    public function apply(array $params)
+    {
+        return (int) $this->value;
+    }
 }
