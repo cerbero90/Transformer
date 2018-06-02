@@ -7,7 +7,6 @@
 [![Packagist](https://img.shields.io/packagist/l/cerbero/transformer.svg?style=flat-square)](LICENSE.md)
 [![HHVM Support](https://img.shields.io/hhvm/cerbero/transformer.svg?style=flat-square)](https://travis-ci.org/cerbero90/Transformer)
 [![Quality Score](https://img.shields.io/scrutinizer/g/cerbero90/Transformer.svg?style=flat-square)](https://scrutinizer-ci.com/g/cerbero90/Transformer)
-[![Gratipay](https://img.shields.io/gratipay/cerbero.svg?style=flat-square)](https://gratipay.com/cerbero/)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5932ecbf-aff3-48c8-9cf9-7639530a84f5/big.png)](https://insight.sensiolabs.com/projects/5932ecbf-aff3-48c8-9cf9-7639530a84f5)
 
@@ -28,13 +27,12 @@ In order to create a new transformer, extend the abstract class:
 ``` php
 use Cerbero\Transformer\AbstractTransformer;
 
-class MyTransformer extends AbstractTransformer {
-
+class MyTransformer extends AbstractTransformer
+{
 	protected function getStructure()
 	{
 		// the resulting array you want to get
 	}
-
 }
 ```
 The abstract class let you implement your own `getStructure()` method to define how the returned array should be.
@@ -115,8 +113,8 @@ Sometimes you may need to normalize data from different sources. In that case on
 ``` php
 use Cerbero\Transformer\AbstractTransformer;
 
-abstract class MyTransformer extends AbstractTransformer {
-
+abstract class MyTransformer extends AbstractTransformer
+{
 	protected function getStructure()
 	{
 		return [
@@ -132,14 +130,13 @@ abstract class MyTransformer extends AbstractTransformer {
 			'json'      => 'arr',
 		];
 	}
-
 }
 ```
 In this array there are only the transformed keys associated to the transformations to apply. If you don't need no transformation, just set `null`. To define the keys of the sources, extend the newly created transformer for every different source and override the method `getCustomKeys()`:
 
 ``` php
-class SourceFooTransformer extends MyTransformer {
-
+class SourceFooTransformer extends MyTransformer
+{
 	protected function getCustomKeys()
 	{
 		return [
@@ -155,7 +152,6 @@ class SourceFooTransformer extends MyTransformer {
 			'json'      => 'json',
 		];
 	}
-
 }
 ```
 This time the transformed keys are associated only to the original keys belonging to a given source, because the transformations to apply has been already set.
