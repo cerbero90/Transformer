@@ -1,24 +1,22 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Transform a value to an object.
+ * Transform a value to an integer.
  *
  * @author	Andrea Marco Sartori
  */
-class Object extends AbstractTransformation {
+class TransformInt extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	object
+	 * @return	integer
 	 */
 	public function apply(array $params)
 	{
-		$value = json_decode($this->value);
-
-		return is_object($value) ? $value : (object) $this->value;
+		return (int) $this->value;
 	}
 
 }

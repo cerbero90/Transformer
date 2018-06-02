@@ -5,7 +5,7 @@
  *
  * @author	Andrea Marco Sartori
  */
-class Float extends AbstractTransformation {
+class TransformFloat extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.

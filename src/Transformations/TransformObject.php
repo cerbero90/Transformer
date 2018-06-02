@@ -1,22 +1,24 @@
 <?php namespace Cerbero\Transformer\Transformations;
 
 /**
- * Transform a value to a boolean.
+ * Transform a value to an object.
  *
  * @author	Andrea Marco Sartori
  */
-class Bool extends AbstractTransformation {
+class TransformObject extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
 	 *
 	 * @author	Andrea Marco Sartori
 	 * @param	array	$params
-	 * @return	boolean
+	 * @return	object
 	 */
 	public function apply(array $params)
 	{
-		return (bool) $this->value;
+		$value = json_decode($this->value);
+
+		return is_object($value) ? $value : (object) $this->value;
 	}
 
 }

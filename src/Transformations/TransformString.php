@@ -5,7 +5,7 @@
  *
  * @author	Andrea Marco Sartori
  */
-class String extends AbstractTransformation {
+class TransformString extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.

@@ -7,7 +7,7 @@ use DateTime;
  *
  * @author	Andrea Marco Sartori
  */
-class Date extends AbstractTransformation {
+class TransformDate extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.

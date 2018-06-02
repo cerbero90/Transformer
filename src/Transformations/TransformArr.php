@@ -5,7 +5,7 @@
  *
  * @author	Andrea Marco Sartori
  */
-class Arr extends AbstractTransformation {
+class TransformArr extends AbstractTransformation {
 
 	/**
 	 * Apply the transformation.
