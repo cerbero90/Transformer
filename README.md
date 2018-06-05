@@ -8,7 +8,7 @@
 [![HHVM Support](https://img.shields.io/hhvm/cerbero/transformer.svg?style=flat-square)](https://travis-ci.org/cerbero90/Transformer)
 [![Quality Score](https://img.shields.io/scrutinizer/g/cerbero90/Transformer.svg?style=flat-square)](https://scrutinizer-ci.com/g/cerbero90/Transformer)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5932ecbf-aff3-48c8-9cf9-7639530a84f5/big.png)](https://insight.sensiolabs.com/projects/5932ecbf-aff3-48c8-9cf9-7639530a84f5)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/56fd0fb9-29d9-423a-9cc9-60f00a1b3367/big.png)](https://insight.sensiolabs.com/projects/56fd0fb9-29d9-423a-9cc9-60f00a1b3367)
 
 Framework agnostic package to transform objects and arrays by manipulating, casting and mapping their properties.
 
