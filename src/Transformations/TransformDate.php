@@ -24,7 +24,7 @@ class TransformDate extends AbstractTransformation
             return $date;
         }
 
-        return $date->format($params[0]);
+        return $date ? $date->format($params[0]) : '';
     }
 
     /**
@@ -39,6 +39,11 @@ class TransformDate extends AbstractTransformation
             return $this->value;
         }
 
-        return new DateTime($this->value);
+        try {
+            return new DateTime($this->value);
+        }
+        catch (\Exception $e) {
+            return false;
+        }
     }
 }
