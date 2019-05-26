@@ -1,36 +1,44 @@
-<?php namespace Cerbero\Transformer\Transformations;
+<?php
+
+namespace Cerbero\Transformer\Transformations;
 
 /**
- * Abstract implementation of a transformation.
+ * The abstract transformation.
  *
- * @author	Andrea Marco Sartori
  */
-abstract class AbstractTransformation implements TransformationInterface
+abstract class AbstractTransformation
 {
     /**
-     * @author	Andrea Marco Sartori
-     * @var		mixed	$value	Value to transform.
+     * The value to transform.
+     *
+     * @var mixed
      */
     protected $value;
 
     /**
-     * Set the value to transform.
+     * The item containing the value to transform.
      *
-     * @author	Andrea Marco Sartori
-     * @param	mixed	$value
-     * @return	void
+     * @var array|object
      */
-    public function __construct($value)
+    protected $item;
+
+    /**
+     * Set the dependencies.
+     *
+     * @param mixed $value
+     * @param array|object $item
+     */
+    public function __construct($value, $item)
     {
         $this->value = $value;
+        $this->item = $item;
     }
 
     /**
-     * Apply the transformation.
+     * Apply the transformation
      *
-     * @author	Andrea Marco Sartori
-     * @param	array	$params
-     * @return	mixed
+     * @param array $parameters
+     * @return void
      */
-    abstract public function apply(array $params);
+    abstract public function apply(array $parameters);
 }
