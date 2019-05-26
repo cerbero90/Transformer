@@ -20,7 +20,7 @@ class DateTransformation extends AbstractTransformation
     public function apply(array $parameters)
     {
         if (!isset($parameters[0])) {
-            return $this->getDate();
+            return new DateTime($this->value);
         }
 
         $format = $parameters[0];
@@ -30,19 +30,5 @@ class DateTransformation extends AbstractTransformation
         return Carbon::parse($this->value, $fromTimezone)
             ->timezone($toTimezone)
             ->format($format);
-    }
-
-    /**
-     * Retrieve the date time instance
-     *
-     * @return DateTime
-     */
-    protected function getDate(): DateTime
-    {
-        if ($this->value instanceof DateTime) {
-            return $this->value;
-        }
-
-        return new DateTime($this->value);
     }
 }
