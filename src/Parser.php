@@ -1,104 +1,70 @@
-<?php namespace Cerbero\Transformer;
+<?php
+
+namespace Cerbero\Transformer;
+
+use Illuminate\Support\Str;
 
 /**
- * Parser for rules to apply.
+ * The transformation rules parser.
  *
- * @author	Andrea Marco Sartori
  */
 class Parser
 {
     const KEY_SEPARATOR = ' ';
-
-    const ACTION_SEPARATOR = '|';
-
-    const ARGS_LIST = ':';
-
-    const ARGS_SEPARATOR = ',';
+    const TRANSFORMATION_SEPARATOR = '|';
+    const PARAMETER_LIST = ':';
+    const PARAMETER_SEPARATOR = ',';
 
     /**
-     * @author	Andrea Marco Sartori
-     * @var		string	$string	String to parse.
+     * The raw rules to parse.
+     *
+     * @var string
      */
-    protected $string;
+    protected $rawRules;
 
     /**
      * Set the dependencies.
      *
-     * @author	Andrea Marco Sartori
-     * @param	string	$string
-     * @param	string|null	$key
-     * @return	void
+     * @param string|null $rawRules
+     * @param string|null $customKey
      */
-    public function __construct($string, $key = null)
+    public function __construct(string $rawRules = null, string $customKey = null)
     {
-        if (!is_null($key)) {
-            $string = $this->addKeyToString($key, $string);
+        $this->rawRules = $this->resolveRawRules($rawRules, $customKey);
+    }
+
+    /**
+     * Resolve the raw rules to parse
+     *
+     * @param string|null $rawRules
+     * @param string|null $customKey
+     * @return string|null
+     */
+    protected function resolveRawRules(string $rawRules = null, string $customKey = null)
+    {
+        if ($customKey === null) {
+            return $rawRules;
         }
 
-        $this->string = $string;
+        return $rawRules === null ? $customKey : $customKey . static::KEY_SEPARATOR . $rawRules;
     }
 
     /**
-     * Add a custom key to the string to parse.
+     * Retrieve the key for the current transformation
      *
-     * @author	Andrea Marco Sartori
-     * @param	string	$key
-     * @param	string	$string
-     * @return	string
+     * @return string
      */
-    private function addKeyToString($key, $string)
+    public function parseKey(): string
     {
-        if (!$string) {
-            return $key;
-        }
-
-        return $key . static::KEY_SEPARATOR . $string;
+        return (string)Str::before($this->rawRules, static::KEY_SEPARATOR);
     }
 
     /**
-     * Retrieve the key the original value is put in.
+     * Retrieve a map with transformations and parameters
      *
-     * @author	Andrea Marco Sartori
-     * @return	string
+     * @return array
      */
-    public function getKey()
-    {
-        if ($this->hasTransformations()) {
-            return head($this->explodeKey());
-        }
-
-        return $this->string;
-    }
-
-    /**
-     * Determine whether the string has transformations.
-     *
-     * @author	Andrea Marco Sartori
-     * @return	boolean
-     */
-    protected function hasTransformations()
-    {
-        return str_contains($this->string, static::KEY_SEPARATOR);
-    }
-
-    /**
-     * Explode the key separator.
-     *
-     * @author	Andrea Marco Sartori
-     * @return	array
-     */
-    protected function explodeKey()
-    {
-        return explode(static::KEY_SEPARATOR, $this->string);
-    }
-
-    /**
-     * Retrieves the transformations to apply and their arguments.
-     *
-     * @author	Andrea Marco Sartori
-     * @return	array
-     */
-    public function getTransformations()
+    public function parseTransformations(): array
     {
         if (!$this->hasTransformations()) {
             return [];
@@ -106,78 +72,82 @@ class Parser
 
         $transformations = [];
 
-        foreach ($this->explodeActions() as $action) {
-            $this->pushAction($action, $transformations);
+        foreach ($this->getRawTransformations() as $rawTransformation) {
+            $transformation = $this->parseTransformationName($rawTransformation);
+            $transformations[$transformation] = $this->parseParameters($rawTransformation);
         }
 
         return $transformations;
     }
 
     /**
-     * Explode the action separator.
+     * Determine whether the rules contain transformations
      *
-     * @author	Andrea Marco Sartori
-     * @return	array
+     * @return bool
      */
-    protected function explodeActions()
+    public function hasTransformations(): bool
     {
-        $actions = last($this->explodeKey());
-
-        return explode(static::ACTION_SEPARATOR, $actions);
+        return Str::contains($this->rawRules, static::KEY_SEPARATOR);
     }
 
     /**
-     * Push the parsed action into a list.
+     * Retrieve the transformations to parse
      *
-     * @author	Andrea Marco Sartori
-     * @param	string	$action
-     * @param	array	$list
-     * @return	void
+     * @return array
      */
-    protected function pushAction($action, &$list)
+    protected function getRawTransformations(): array
     {
-        if (!$this->hasArguments($action)) {
-            return $list[$action] = [];
+        $rawTransformations = Str::after($this->rawRules, static::KEY_SEPARATOR);
+
+        return explode(static::TRANSFORMATION_SEPARATOR, $rawTransformations);
+    }
+
+    /**
+     * Retrieve the parsed transformation name
+     *
+     * @param string $rawTransformation
+     * @return string
+     */
+    public function parseTransformationName(string $rawTransformation): string
+    {
+        if (!$this->hasParameters($rawTransformation)) {
+            return $rawTransformation;
         }
 
-        list($key, $value) = $this->explodeAction($action);
+        $position = strrpos($rawTransformation, static::PARAMETER_LIST);
 
-        $list[$key] = $this->explodeArgs($value);
+        return substr($rawTransformation, 0, $position);
     }
 
     /**
-     * Determine whether an action has arguments.
+     * Retrieve the parameters of the given transformation to parse
      *
-     * @author	Andrea Marco Sartori
-     * @param	string	$action
-     * @return	boolean
+     * @param string $rawTransformation
+     * @return array
      */
-    protected function hasArguments($action)
+    public function parseParameters(string $rawTransformation): array
     {
-        return str_contains($action, static::ARGS_LIST);
+        if (!$this->hasParameters($rawTransformation)) {
+            return [];
+        }
+
+        $position = strrpos($rawTransformation, static::PARAMETER_LIST);
+        $rawParameters = substr($rawTransformation, $position + 1);
+
+        return explode(static::PARAMETER_SEPARATOR, $rawParameters);
     }
 
     /**
-     * Explode the given action.
+     * Determine whether the given transformation to parse has parameters
      *
-     * @author	Andrea Marco Sartori
-     * @param	string	$action
-     * @return	array
+     * @param string $rawTransformation
+     * @return bool
      */
-    protected function explodeAction($action)
+    public function hasParameters(string $rawTransformation): bool
     {
-        return explode(static::ARGS_LIST, $action);
-    }
+        // Remove instances of :: to avoid confusing parameters with static methods
+        $sanitised = preg_replace('/::/', '', $rawTransformation);
 
-    /**
-     * Explode the given arguments.
-     *
-     * @author	Andrea Marco Sartori
-     * @param	string	$args
-     * @return	array
-     */
-    protected function explodeArgs($args)
-    {
-        return explode(static::ARGS_SEPARATOR, $args);
+        return Str::contains($sanitised, static::PARAMETER_LIST);
     }
 }

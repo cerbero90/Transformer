@@ -1,245 +1,178 @@
-<?php namespace Cerbero\Transformer;
+<?php
 
-use Illuminate\Support\Collection;
+namespace Cerbero\Transformer;
+
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 /**
- * Abstract implementation of a transformer.
+ * The abstract transformer.
  *
- * @author	Andrea Marco Sartori
  */
 abstract class AbstractTransformer
 {
-    /**
-     * @author	Andrea Marco Sartori
-     * @var		mixed	$original	The original value.
-     */
-    protected $original;
+    use CallsTransformation;
 
     /**
-     * @author	Andrea Marco Sartori
-     * @var		boolean	$originalIsOne	Whether the original value is not a multi-dimensional array.
+     * The array or object to transform.
+     *
+     * @param array|object
      */
-    protected $originalIsOne;
+    protected $data;
 
     /**
-     * @author	Andrea Marco Sartori
-     * @var		array	$processing	The item being processed.
+     * The object to map data into.
+     *
+     * @var object|null
      */
-    protected $processing;
+    protected $object;
 
     /**
-     * @author	Andrea Marco Sartori
-     * @var		mixed	$item	Current item.
+     * The current item.
+     *
+     * @var array|object
      */
     protected $item;
 
     /**
-     * @author	Andrea Marco Sartori
-     * @var		mixed	$value	Current value.
+     * The item being processed.
+     *
+     * @var array|object
+     */
+    protected $processingItem;
+
+    /**
+     * The current value.
+     *
+     * @var mixed
      */
     protected $value;
 
     /**
-     * Retrieves the expected transformed value.
+     * Retrieve the expected structure of the transformed data
      *
-     * @author	Andrea Marco Sartori
-     * @return	array
+     * @return array
      */
-    abstract protected function getStructure();
+    abstract protected function getStructure(): array;
 
     /**
-     * Transform the given value.
+     * Set the dependencies.
      *
-     * @author	Andrea Marco Sartori
-     * @param	mixed	$value
-     * @return	mixed
+     * @param array|object $data
      */
-    public function transform($value)
+    public function __construct($data)
     {
-        $this->setOriginal($value);
-
-        $collection = $this->forceCollection();
-
-        $collection->transform(function ($item) {
-            return $this->transformItem($item);
-        });
-
-        return $this->originalIsOne ? $collection->first() : $collection;
+        $this->setData($data);
     }
 
     /**
-     * Set the original value.
+     * Set the given data and check whether it is a matrix
      *
-     * @author	Andrea Marco Sartori
-     * @param	mixed	$original
-     * @return	void
+     * @param array|object $data
+     * @return void
      */
-    public function setOriginal($original)
+    protected function setData($data)
     {
-        $this->original = $original;
-
-        $this->originalIsOne = $this->originalIsOne();
-    }
-
-    /**
-     * Determine whether the original value is not a multi-dimensional array.
-     *
-     * @author	Andrea Marco Sartori
-     * @return	boolean
-     */
-    protected function originalIsOne()
-    {
-        if (!$this->originalCanBeLooped()) {
-            return true;
+        if (!is_array($data) && !is_object($data)) {
+            throw new InvalidArgumentException('Only objects or arrays can be transformed.');
         }
 
-        foreach ($this->original as $item) {
-            if (is_scalar($item)) {
-                return true;
-            }
+        $this->data = $data;
+    }
+
+    /**
+     * Create a new instance while easing method chaining
+     *
+     * @param array|object $data
+     * @return self
+     */
+    public static function from($data): self
+    {
+        return new static($data);
+    }
+
+    /**
+     * Transform the data into the given object
+     *
+     * @param object $object
+     * @return array|object
+     */
+    public function transformInto($object)
+    {
+        if (!is_object($object)) {
+            throw new InvalidArgumentException('Unable to transform data into the given value.');
         }
 
-        return false;
+        $this->object = $object;
+
+        return $this->transform();
     }
 
     /**
-     * Determine whether original can be looped.
+     * Transform the data
      *
-     * @author	Andrea Marco Sartori
-     * @return	boolean
+     * @return array|object
      */
-    private function originalCanBeLooped()
+    public function transform()
     {
-        $isTraversable = $this->original instanceof \Traversable;
+        $isCollection = !Arr::isAssoc((array)$this->data);
+        $data = $isCollection ? $this->data : [$this->data];
+        $transformedData = array_map([$this, 'transformItem'], $data);
 
-        return is_array($this->original) || $isTraversable;
+        return $isCollection ? $transformedData : $transformedData[0];
     }
 
     /**
-     * Retrieve a collection of items even if the original value is one.
+     * Transform the given item
      *
-     * @author	Andrea Marco Sartori
-     * @return	\Illuminate\Support\Collection
-     */
-    protected function forceCollection()
-    {
-        $items = $this->originalIsOne ? [$this->original] : $this->original;
-
-        return Collection::make($items);
-    }
-
-    /**
-     * Transform a given item.
-     *
-     * @author	Andrea Marco Sartori
-     * @param	mixed	$item
-     * @return	array
+     * @param array|object $item
+     * @return array|object
      */
     protected function transformItem($item)
     {
+        if (!Arr::isAssoc((array)$item)) {
+            throw new InvalidArgumentException('Only objects or associative arrays can be transformed.');
+        }
+
         $this->item = $item;
+        $this->processingItem = $this->object ? clone $this->object : [];
+        $structure = Arr::dot($this->getStructure());
 
-        $this->processing = [];
-
-        foreach ($this->dotStructure() as $key => $rules) {
-            $this->map($item, $key, $rules);
+        foreach ($structure as $key => $rawRules) {
+            $this->processItemKey($item, $key, $rawRules);
         }
 
-        return $this->processing;
+        return $this->processingItem;
     }
 
     /**
-     * Use dot notation to handle the structure given by the user.
+     * Process the given key of the provided item
      *
-     * @author	Andrea Marco Sartori
-     * @return	array
+     * @param array|object $item
+     * @param string $key
+     * @param string|null $rawRules
+     * @return void
      */
-    private function dotStructure()
+    protected function processItemKey($item, string $key, string $rawRules = null)
     {
-        $structure = $this->getStructure();
+        $customKey = Arr::get($this->getKeysMap(), $key);
+        $parser = new Parser($rawRules, $customKey);
+        $this->value = data_get($item, $parser->parseKey());
 
-        return array_dot($structure);
-    }
-
-    /**
-     * Map an item of a collection.
-     *
-     * @author	Andrea Marco Sartori
-     * @param	mixed	$item
-     * @param	string	$key
-     * @param	string	$rules
-     * @return	void
-     */
-    protected function map($item, $key, $rules)
-    {
-        $parser = new Parser($rules, $this->getCustomKey($key));
-
-        $this->value = data_get($item, $parser->getKey());
-
-        foreach ($parser->getTransformations() as $transformation => $args) {
-            $this->value = call_user_func_array([$this, $transformation], $args);
+        foreach ($parser->parseTransformations() as $transformation => $parameters) {
+            $this->value = $this->callTransformation($transformation, $parameters);
         }
 
-        array_set($this->processing, $key, $this->value);
+        data_set($this->processingItem, $key, $this->value);
     }
 
     /**
-     * Retrieve one of the custom keys if set.
+     * Retrieve the keys map in the format expected_key => original_key
      *
-     * @author	Andrea Marco Sartori
-     * @return	string	$key
-     * @return	string|null
+     * @return array
      */
-    private function getCustomKey($key)
-    {
-        $keys = $this->getCustomKeys();
-
-        if (isset($keys[$key])) {
-            return $keys[$key];
-        }
-    }
-
-    /**
-     * Retrieve custom keys associated to source keys.
-     *
-     * @author	Andrea Marco Sartori
-     * @return	array
-     */
-    protected function getCustomKeys()
+    protected function getKeysMap(): array
     {
         return [];
-    }
-
-    /**
-     * Dynamically apply transformations.
-     *
-     * @author	Andrea Marco Sartori
-     * @param	string	$name
-     * @param	array	$arguments
-     * @return	mixed
-     */
-    public function __call($name, $arguments)
-    {
-        if (!class_exists($class = $this->getTransformationByName($name))) {
-            throw new \BadMethodCallException("Transformation [$name] is not supported by default.");
-        }
-
-        $transformation = new $class($this->value);
-
-        return $transformation->apply($arguments);
-    }
-
-    /**
-     * Retrieve the class of the transformation with the given name.
-     *
-     * @author	Andrea Marco Sartori
-     * @param	string	$name
-     * @return	string
-     */
-    protected function getTransformationByName($name)
-    {
-        $Name = ucfirst($name);
-
-        return "Cerbero\Transformer\Transformations\\Transform{$Name}";
     }
 }
