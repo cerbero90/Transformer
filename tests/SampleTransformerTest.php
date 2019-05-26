@@ -92,6 +92,50 @@ class SampleTransformerTest extends TestCase
     /**
      * @test
      */
+    public function cannotTransformWithUnexistingTransformation()
+    {
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage('Unable to call the transformation un3x1st1ngTr4nsf0rm4t10n');
+
+        SampleTransformer::from(['foo' => 'bar'])
+            ->overrideStructure(['foo' => 'foo un3x1st1ngTr4nsf0rm4t10n'])
+            ->transform();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotTransformWithInvalidTransformation()
+    {
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage(
+            'Custom transformations need to implement Cerbero\Transformer\Transformations\AbstractTransformation'
+        );
+
+        SampleTransformer::from(['foo' => 'bar'])
+            ->overrideStructure(['foo' => 'foo invalidCustom'])
+            ->transform();
+    }
+
+    /**
+     * @test
+     */
+    public function cannotTransformWithInvalidCallableTransformation()
+    {
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage(
+            'Unable to call Illuminate\Support\Str::start: ' .
+                'Too few arguments to function Illuminate\Support\Str::start(), 1 passed and exactly 2 expected'
+        );
+
+        SampleTransformer::from(['foo' => 'bar'])
+            ->overrideStructure(['foo' => 'foo Illuminate\Support\Str::start'])
+            ->transform();
+    }
+
+    /**
+     * @test
+     */
     public function canTransformArray()
     {
         $data = [
