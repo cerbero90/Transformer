@@ -122,11 +122,10 @@ class SampleTransformerTest extends TestCase
      */
     public function cannotTransformWithInvalidCallableTransformation()
     {
+        $error = preg_quote('Unable to call Illuminate\Support\Str::start');
+
         $this->expectException('BadMethodCallException');
-        $this->expectExceptionMessage(
-            'Unable to call Illuminate\Support\Str::start: ' .
-                'Too few arguments to function Illuminate\Support\Str::start(), 1 passed and exactly 2 expected'
-        );
+        $this->expectExceptionMessageRegExp("/^{$error}/");
 
         SampleTransformer::from(['foo' => 'bar'])
             ->overrideStructure(['foo' => 'foo Illuminate\Support\Str::start'])
