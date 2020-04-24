@@ -4,6 +4,12 @@ All notable changes to `Transformer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.2.0 - 2020-04-24
+
+### Added
+- Support for Laravel 7
+
+
 ## 2.1.0 - 2019-09-07
 
 ### Added
