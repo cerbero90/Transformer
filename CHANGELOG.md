@@ -4,6 +4,13 @@ All notable changes to `Transformer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+
+## 2.3.0 - 2020-11-07
+
+### Added
+- Support for future `illuminate/support` releases
+
+
 ## 2.2.0 - 2020-04-24
 
 ### Added
