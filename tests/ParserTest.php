@@ -69,7 +69,7 @@ class ParserTest extends TestCase
      */
     public function parsesTransformationNames()
     {
-        $parser = new Parser;
+        $parser = new Parser();
 
         $this->assertSame('foo', $parser->parseTransformationName('foo'));
         $this->assertSame('foo', $parser->parseTransformationName('foo:1'));
@@ -81,7 +81,7 @@ class ParserTest extends TestCase
      */
     public function parsesParameters()
     {
-        $parser = new Parser;
+        $parser = new Parser();
 
         $this->assertSame([], $parser->parseParameters('foo'));
         $this->assertSame(['1'], $parser->parseParameters('foo:1'));
@@ -93,7 +93,7 @@ class ParserTest extends TestCase
      */
     public function detectsParameters()
     {
-        $parser = new Parser;
+        $parser = new Parser();
 
         $this->assertFalse($parser->hasParameters('foo'));
         $this->assertTrue($parser->hasParameters('foo:1'));

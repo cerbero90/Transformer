@@ -57,7 +57,7 @@ class SampleTransformer extends AbstractTransformer
      */
     protected function getCustomTransformationNamespace(): string
     {
-        return 'CerberoTransformer\CustomTransformations';
+        return 'Cerbero\Transformer\CustomTransformations';
     }
 
     /**
@@ -83,41 +83,5 @@ class SampleTransformer extends AbstractTransformer
         $this->structure = $structure;
 
         return $this;
-    }
-}
-
-namespace CerberoTransformer\CustomTransformations;
-
-use Cerbero\Transformer\Transformations\AbstractTransformation;
-
-class SampleCustomTransformation extends AbstractTransformation
-{
-    /**
-     * Apply the transformation
-     *
-     * @param array $parameters
-     * @return void
-     */
-    public function apply(array $parameters)
-    {
-        $position = floor(strlen($this->value) / 2);
-
-        return substr($this->value, $position, 1);
-    }
-}
-
-class InvalidCustomTransformation
-{
-    /**
-     * Apply the transformation
-     *
-     * @param array $parameters
-     * @return void
-     */
-    public function apply(array $parameters)
-    {
-        $position = floor(strlen($this->value) / 2);
-
-        return substr($this->value, $position, 1);
     }
 }

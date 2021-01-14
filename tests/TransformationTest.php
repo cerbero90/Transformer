@@ -80,10 +80,12 @@ class TransformationTest extends TestCase
         $transformation5 = (new DateTransformation('12/22/78 00:00:00', []))->apply(['Y-m-d', 'Australia/Melbourne']);
         $transformation6 = (new DateTransformation('2008-6-30', []))->apply([]);
         $transformation7 = (new DateTransformation('2008-6-30', []))->apply(['d/m/Y']);
-        $transformation8 = (new DateTransformation('2008-6-30 00:00:00', []))->apply(['d/m/Y H.i.s', 'Europe/Rome', 'Australia/Sydney']);
+        $transformation8 = (new DateTransformation('2008-6-30 00:00:00', []))
+            ->apply(['d/m/Y H.i.s', 'Europe/Rome', 'Australia/Sydney']);
         $transformation9 = (new DateTransformation('July 1st, 2008', []))->apply([]);
         $transformation10 = (new DateTransformation('July 1st, 2008', []))->apply(['d.m.y']);
-        $transformation11 = (new DateTransformation('July 1st, 2008 00:00:00', []))->apply(['d.m.y h:i:s', 'UTC', 'Australia/Brisbane']);
+        $transformation11 = (new DateTransformation('July 1st, 2008 00:00:00', []))
+            ->apply(['d.m.y h:i:s', 'UTC', 'Australia/Brisbane']);
 
         $this->assertInstanceOf(DateTime::class, $transformation1);
         $this->assertInstanceOf(DateTime::class, $transformation2);
@@ -142,7 +144,7 @@ class TransformationTest extends TestCase
         $this->assertSame(null, $transformation1);
         $this->assertSame(0, $transformation2);
         $this->assertSame(null, $transformation3);
-        $this->assertSame(0, $transformation4);
+        $this->assertSame(null, $transformation4);
         $this->assertSame(null, $transformation5);
         $this->assertSame(null, $transformation6);
         $this->assertSame(null, $transformation7);
