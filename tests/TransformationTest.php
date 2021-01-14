@@ -144,7 +144,7 @@ class TransformationTest extends TestCase
         $this->assertSame(null, $transformation1);
         $this->assertSame(0, $transformation2);
         $this->assertSame(null, $transformation3);
-        $this->assertSame(null, $transformation4);
+        $this->assertSame(PHP_MAJOR_VERSION < 8 ? 0 : null, $transformation4);
         $this->assertSame(null, $transformation5);
         $this->assertSame(null, $transformation6);
         $this->assertSame(null, $transformation7);
