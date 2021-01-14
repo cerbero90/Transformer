@@ -4,6 +4,15 @@ All notable changes to `Transformer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.4.0 - 2021-01-14
+
+### Added
+- Support for PHP 8
+
+### Changed
+- Migrated from Travis to GitHub actions
+- Code style from PSR-2 to PSR-12
+
 
 ## 2.3.0 - 2020-11-07
 
