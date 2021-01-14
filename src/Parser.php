@@ -10,10 +10,10 @@ use Illuminate\Support\Str;
  */
 class Parser
 {
-    const KEY_SEPARATOR = ' ';
-    const TRANSFORMATION_SEPARATOR = '|';
-    const PARAMETER_LIST = ':';
-    const PARAMETER_SEPARATOR = ',';
+    protected const KEY_SEPARATOR = ' ';
+    protected const TRANSFORMATION_SEPARATOR = '|';
+    protected const PARAMETER_LIST = ':';
+    protected const PARAMETER_SEPARATOR = ',';
 
     /**
      * The raw rules to parse.

@@ -8,7 +8,7 @@ namespace Cerbero\Transformer\Transformations;
  */
 class EnumTransformation extends AbstractTransformation
 {
-    const DELIMITER = '=';
+    protected const DELIMITER = '=';
 
     /**
      * Apply the transformation
@@ -20,7 +20,7 @@ class EnumTransformation extends AbstractTransformation
     {
         foreach ($parameters as $parameter) {
             list($actual, $transformed) = explode(static::DELIMITER, $parameter);
-            // die(var_dump($this->value, $actual, $transformed));
+
             if ($this->value == $actual) {
                 return is_numeric($transformed) ? (int)$transformed : $transformed;
             }

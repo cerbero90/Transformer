@@ -102,7 +102,7 @@ trait CallsTransformation
             // Try to call a method from a class instance
             try {
                 $callable = explode('::', $transformation);
-                return call_user_func_array([new $callable[0], $callable[1] ?? ''], $parameters);
+                return call_user_func_array([new $callable[0](), $callable[1] ?? ''], $parameters);
             } catch (Throwable $e) {
                 throw new BadMethodCallException("Unable to call {$transformation}: " . $e->getMessage());
             }

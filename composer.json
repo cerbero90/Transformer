@@ -20,7 +20,7 @@
         "role": "Developer"
     }],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1||^8.0",
         "illuminate/support": ">=5.5"
     },
     "require-dev": {
@@ -39,8 +39,8 @@
     },
     "scripts": {
         "test": "phpunit",
-        "check-style": "phpcs src tests",
-        "fix-style": "phpcbf src tests"
+        "check-style": "phpcs --standard=PSR12 src tests",
+        "fix-style": "phpcbf --standard=PSR12 src tests"
     },
     "extra": {
         "branch-alias": {
