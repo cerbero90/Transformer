@@ -38,7 +38,7 @@ class SampleTransformerTest extends TestCase
     public function canInstantiateWithValidData()
     {
         $transformer1 = new SampleTransformer([]);
-        $transformer2 = new SampleTransformer(new stdClass);
+        $transformer2 = new SampleTransformer(new stdClass());
 
         $this->assertInstanceOf(SampleTransformer::class, $transformer1);
         $this->assertInstanceOf(SampleTransformer::class, $transformer2);
@@ -50,7 +50,7 @@ class SampleTransformerTest extends TestCase
     public function canInstantiateStaticallyWithValidData()
     {
         $transformer1 = SampleTransformer::from([]);
-        $transformer2 = SampleTransformer::from(new stdClass);
+        $transformer2 = SampleTransformer::from(new stdClass());
 
         $this->assertInstanceOf(SampleTransformer::class, $transformer1);
         $this->assertInstanceOf(SampleTransformer::class, $transformer2);
@@ -86,7 +86,7 @@ class SampleTransformerTest extends TestCase
         $this->expectException('InvalidArgumentException');
         $this->expectExceptionMessage('Only objects or associative arrays can be transformed.');
 
-        SampleTransformer::from([1, 2, 3])->transformInto(new stdClass);
+        SampleTransformer::from([1, 2, 3])->transformInto(new stdClass());
     }
 
     /**
@@ -362,7 +362,7 @@ class SampleTransformerTest extends TestCase
             'mid_char' => 'b',
         ]);
 
-        $actual = SampleTransformer::from($data)->transformInto(new SampleObject);
+        $actual = SampleTransformer::from($data)->transformInto(new SampleObject());
 
         $this->assertEquals($expected, $actual);
         $this->assertInstanceOf(SampleObject::class, $actual);
@@ -427,7 +427,7 @@ class SampleTransformerTest extends TestCase
             ]),
         ];
 
-        $actual = SampleTransformer::from($data)->transformInto(new SampleObject);
+        $actual = SampleTransformer::from($data)->transformInto(new SampleObject());
 
         $this->assertEquals($expected, $actual);
     }
@@ -463,7 +463,7 @@ class SampleTransformerTest extends TestCase
             'mid_char' => 'b',
         ]);
 
-        $actual = SampleTransformer::from($data)->transformInto(new SampleObject);
+        $actual = SampleTransformer::from($data)->transformInto(new SampleObject());
 
         $this->assertEquals($expected, $actual);
         $this->assertInstanceOf(SampleObject::class, $actual);
@@ -528,27 +528,8 @@ class SampleTransformerTest extends TestCase
             ]),
         ];
 
-        $actual = SampleTransformer::from($data)->transformInto(new SampleObject);
+        $actual = SampleTransformer::from($data)->transformInto(new SampleObject());
 
         $this->assertEquals($expected, $actual);
-    }
-}
-
-class SampleObject
-{
-    public $foo;
-    public $money;
-    public $key;
-    public $new_key;
-    public $package;
-    public $baz;
-    public $QUX;
-    public $mid_char;
-
-    public function __construct(array $parameters = [])
-    {
-        foreach ($parameters as $parameter => $value) {
-            $this->$parameter = $value;
-        }
     }
 }
